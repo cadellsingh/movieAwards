@@ -1,6 +1,9 @@
 import { useContext } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import MyContext from "../MyContext";
+import { fadeIn } from "react-animations";
+
+const fadeInAnimation = keyframes`${fadeIn}`;
 
 const Card = styled.div`
   text-align: center;
@@ -9,6 +12,7 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  animation: 3s ${fadeInAnimation};
 
   & p {
     font-size: 16px;

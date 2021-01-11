@@ -5,9 +5,6 @@ import { useContext } from "react";
 
 const Container = styled.div`
   grid-column: span 2 / auto;
-  background-color: ${({ theme }) => theme.secondaryColor};
-  border-radius: 10px;
-  padding: 15px;
 
   @media (max-width: 900px) {
     grid-column: span 3 / auto;
@@ -19,6 +16,9 @@ const ListContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 30px;
   grid-column-gap: 20px;
+  background-color: ${({ theme }) => theme.secondaryColor};
+  border-radius: 10px;
+  padding: 15px;
 
   @media (max-width: 600px) {
     grid-template-columns: repeat(2, 1fr);
