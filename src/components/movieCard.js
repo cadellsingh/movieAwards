@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import MyContext from "../MyContext";
 
@@ -17,9 +17,15 @@ const Card = styled.div`
   & img {
     margin: 10px 0;
     max-width: 100%;
-    height: ${(props) => (props.text === "Nominate" ? "200px" : "100px")};
-    width: ${(props) => (props.text === "Nominate" ? "200px" : "100px")};
+    width: auto;
+    height: auto;
     border-radius: 15px;
+  }
+
+  @media (max-width: 400px) {
+    & p {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -38,11 +44,13 @@ const MovieCard = ({ data, text }) => {
   const { Title: title, Year: year, Poster: poster, imdbID } = data;
   const { handleClick, nominations } = useContext(MyContext);
 
-  let disable = nominations.some((data) => {
+  let disableOneCard = nominations.some((data) => {
     const { imdbID: id } = data;
 
     return id === imdbID;
   });
+
+  let disable = nominations.length === 5 || disableOneCard;
 
   let displayText;
 
@@ -68,7 +76,7 @@ const MovieCard = ({ data, text }) => {
   }
 
   return (
-    <Card text={text}>
+    <Card>
       <p>
         {title} {year}
       </p>

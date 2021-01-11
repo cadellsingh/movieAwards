@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   grid-column: span 3 / auto;
-  background-color: #191d25;
+  background-color: ${({ theme }) => theme.secondaryColor};
   border-radius: 10px;
 `;
 
@@ -11,7 +11,7 @@ const FormContainer = styled.form`
   & input {
     width: 100%;
     background-color: inherit;
-    color: white;
+    color: ${({ theme }) => theme.color};
     padding: 20px;
     font-size: 20px;
     outline: none;
@@ -19,7 +19,7 @@ const FormContainer = styled.form`
   }
 
   & ::placeholder {
-    color: white;
+    color: ${({ theme }) => theme.color};
   }
 `;
 
