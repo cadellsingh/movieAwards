@@ -27,7 +27,7 @@ const SearchForm = ({ setTitle }) => {
   const [query, setQuery] = useState("");
 
   const handleSubmit = (event) => {
-    setTitle(query);
+    setTitle(query.trim());
     event.preventDefault();
   };
 
