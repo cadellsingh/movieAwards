@@ -9,7 +9,8 @@ export const GlobalStyles = createGlobalStyle`
     
     body {
       font-family: Montserrat, Helvetica, Arial, sans-serif;
-      background-color: #000000;
-      color: white;
+      background-color: ${({ theme }) => theme.backgroundColor};
+      color: ${({ theme }) => theme.color}; 
+      transition: all .50s linear;
     }
 `;

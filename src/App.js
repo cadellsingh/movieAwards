@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { GlobalStyles } from "./globalStyling&Themes/globalStyles";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import SearchForm from "./components/searchForm";
 import MovieList from "./components/movieList";
 import Nominations from "./components/nominations";
 import axios from "axios";
 import Header from "./components/header";
 import MyContext from "./MyContext";
+import { useDarkMode } from "./globalStyling&Themes/darkMode";
+import { darkTheme, lightTheme } from "./globalStyling&Themes/themes";
 
 const MainContainer = styled.div`
   width: 75%;
@@ -14,12 +16,17 @@ const MainContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 30px;
+
+  @media (max-width: 1100px) {
+    width: 90%;
+  }
 `;
 
 const App = () => {
   const [title, setTitle] = useState("");
   const [movieData, setMovieData] = useState([]);
   const [nominations, setNominations] = useState([]);
+  const [theme, setTheme] = useDarkMode();
 
   useEffect(() => {
     getData();
@@ -53,22 +60,29 @@ const App = () => {
     }
   };
 
-  return (
-    <>
-      <GlobalStyles />
-      <MainContainer>
-        <Header />
-        <SearchForm setTitle={setTitle} />
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
 
-        <MyContext.Provider
-          value={{ nominations: nominations, handleClick: handleClick }}
-        >
-          {movieData && <MovieList movieData={movieData} />}
-          {/*<MovieList movieData={movieData} />*/}
-          <Nominations />
-        </MyContext.Provider>
-      </MainContainer>
-    </>
+  const themeMode = theme === "light" ? lightTheme : darkTheme;
+
+  return (
+    <ThemeProvider theme={themeMode}>
+      <>
+        <GlobalStyles />
+        <MainContainer>
+          <Header theme={theme} themeToggler={themeToggler} />
+          <SearchForm setTitle={setTitle} />
+
+          <MyContext.Provider
+            value={{ nominations: nominations, handleClick: handleClick }}
+          >
+            <MovieList movieData={movieData} title={title} />
+            <Nominations />
+          </MyContext.Provider>
+        </MainContainer>
+      </>
+    </ThemeProvider>
   );
 };
 
