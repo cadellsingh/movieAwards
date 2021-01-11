@@ -42,7 +42,7 @@ const StyledButton = styled.button`
 
 const MovieCard = ({ data, text }) => {
   const { Title: title, Year: year, Poster: poster, imdbID } = data;
-  const { handleClick, nominations } = useContext(MyContext);
+  const { nominations, setNominations } = useContext(MyContext);
 
   let disableOneCard = nominations.some((data) => {
     const { imdbID: id } = data;
@@ -58,7 +58,7 @@ const MovieCard = ({ data, text }) => {
     displayText = (
       <StyledButton
         disabled={disable}
-        onClick={() => handleClick("add", data)}
+        onClick={() => setNominations("add", data)}
         style={{ backgroundColor: disable ? "grey" : "#0290e6" }}
       >
         Nominate
@@ -67,7 +67,7 @@ const MovieCard = ({ data, text }) => {
   } else {
     displayText = (
       <StyledButton
-        onClick={() => handleClick("remove", imdbID)}
+        onClick={() => setNominations("remove", imdbID)}
         style={{ backgroundColor: "#de3e45" }}
       >
         Remove

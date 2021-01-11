@@ -9,6 +9,7 @@ import Header from "./components/header";
 import MyContext from "./MyContext";
 import { useDarkMode } from "./globalStyling&Themes/darkMode";
 import { darkTheme, lightTheme } from "./globalStyling&Themes/themes";
+import { useLocalStorage } from "./localStorage";
 
 const MainContainer = styled.div`
   width: 75%;
@@ -25,8 +26,12 @@ const MainContainer = styled.div`
 const App = () => {
   const [title, setTitle] = useState("");
   const [movieData, setMovieData] = useState([]);
-  const [nominations, setNominations] = useState([]);
+  const [nominations, setNominations] = useLocalStorage();
   const [theme, setTheme] = useDarkMode();
+
+  useEffect(() => {
+    localStorage.setItem("nominations", JSON.stringify(nominations));
+  }, [nominations]);
 
   useEffect(() => {
     getData();
@@ -47,19 +52,6 @@ const App = () => {
     fetchData();
   };
 
-  const handleClick = (action, movieData) => {
-    if (action === "add") {
-      setNominations((nominations) => [...nominations, movieData]);
-    } else {
-      const newArray = nominations.filter((data) => {
-        const { imdbID } = data;
-        return !(imdbID === movieData);
-      });
-
-      setNominations(newArray);
-    }
-  };
-
   const themeToggler = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
@@ -75,7 +67,10 @@ const App = () => {
           <SearchForm setTitle={setTitle} />
 
           <MyContext.Provider
-            value={{ nominations: nominations, handleClick: handleClick }}
+            value={{
+              nominations: nominations,
+              setNominations: setNominations,
+            }}
           >
             <MovieList movieData={movieData} title={title} />
             <Nominations />
