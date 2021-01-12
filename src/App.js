@@ -40,7 +40,7 @@ const App = () => {
 
   const getData = () => {
     const apiKey = process.env.REACT_APP_API_KEY;
-    const apiURL = `http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&type=movie&page=${pageNumber}`;
+    const apiURL = `https://www.omdbapi.com/?apikey=${apiKey}&s=${title}&type=movie&page=${pageNumber}`;
 
     const fetchData = async () => {
       const result = await axios(apiURL);
