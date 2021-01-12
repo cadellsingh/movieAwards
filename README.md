@@ -5,7 +5,7 @@
 - React
 - Styled Components
 - HTML/CSS
-- Github API
+- OMDb API
 - And of course... ☕️
 
 ## Demo
