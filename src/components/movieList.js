@@ -2,6 +2,7 @@ import styled from "styled-components";
 import MovieCard from "./movieCard";
 import MyContext from "../MyContext";
 import { useContext } from "react";
+import ChangePage from "./changePage";
 
 const Container = styled.div`
   grid-column: span 2 / auto;
@@ -38,7 +39,7 @@ const Banner = styled.p`
   text-align: center;
   margin-bottom: 10px;
   font-weight: bold;
-  color: #00d25a;
+  color: #0090e7;
 `;
 
 const MovieList = ({ movieData, title }) => {
@@ -59,6 +60,7 @@ const MovieList = ({ movieData, title }) => {
             return <MovieCard key={imdbID} text="Nominate" data={data} />;
           })}
       </ListContainer>
+      {movieData && <ChangePage movieData={movieData} />}
     </Container>
   );
 };

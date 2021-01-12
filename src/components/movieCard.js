@@ -2,6 +2,8 @@ import { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import MyContext from "../MyContext";
 import { fadeIn } from "react-animations";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVideo } from "@fortawesome/free-solid-svg-icons";
 
 const fadeInAnimation = keyframes`${fadeIn}`;
 
@@ -45,7 +47,8 @@ const StyledButton = styled.button`
 `;
 
 const MovieCard = ({ data, text }) => {
-  const { Title: title, Year: year, Poster: poster, imdbID } = data;
+  const { Title: title, Year: year, imdbID } = data;
+  let { Poster: poster } = data;
   const { nominations, setNominations } = useContext(MyContext);
 
   let disableOneCard = nominations.some((data) => {
@@ -79,12 +82,22 @@ const MovieCard = ({ data, text }) => {
     );
   }
 
+  if (poster === "N/A") {
+    poster = (
+      <span>
+        <FontAwesomeIcon icon={faVideo} />
+      </span>
+    );
+  } else {
+    poster = <img src={poster} alt={title} />;
+  }
+
   return (
     <Card>
       <p>
         {title} {year}
       </p>
-      <img src={poster} alt={title} />
+      {poster}
       {displayText}
     </Card>
   );

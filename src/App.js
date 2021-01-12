@@ -28,6 +28,7 @@ const App = () => {
   const [movieData, setMovieData] = useState([]);
   const [nominations, setNominations] = useLocalStorage();
   const [theme, setTheme] = useDarkMode();
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     localStorage.setItem("nominations", JSON.stringify(nominations));
@@ -35,18 +36,23 @@ const App = () => {
 
   useEffect(() => {
     getData();
-  }, [title]);
+  }, [title, pageNumber]);
 
   const getData = () => {
     const apiKey = process.env.REACT_APP_API_KEY;
-    const apiURL = `http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&type=movie`;
+    const apiURL = `http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&type=movie&page=${pageNumber}`;
 
     const fetchData = async () => {
       const result = await axios(apiURL);
       const { data } = result;
       const { Search: search } = data;
 
-      setMovieData(search);
+      if (data.length > 0) {
+        let newData = [...movieData, search];
+        setMovieData(newData);
+      } else {
+        setMovieData(search);
+      }
     };
 
     fetchData();
@@ -70,6 +76,8 @@ const App = () => {
             value={{
               nominations: nominations,
               setNominations: setNominations,
+              setPageNumber: setPageNumber,
+              pageNumber: pageNumber,
             }}
           >
             <MovieList movieData={movieData} title={title} />
